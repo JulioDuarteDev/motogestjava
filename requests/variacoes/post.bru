@@ -1,0 +1,19 @@
+meta {
+  name: post
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/variacoes-modelo/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cor":"Vermelha",
+    "url":"https://www.honda.com.br/motos/sites/hda/files/2024-05/imagem-home-moto-honda-nxr-160-bros-esdd-vermelho-2024.webp",
+    "modelo": {"id":"1"}
+  }
+}

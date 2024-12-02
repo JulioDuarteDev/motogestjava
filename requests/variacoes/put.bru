@@ -1,0 +1,18 @@
+meta {
+  name: put
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:8080/variacoes-modelo/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id":"2",
+    "nome":"disponivel"
+  }
+}

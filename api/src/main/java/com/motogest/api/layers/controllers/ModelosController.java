@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.motogest.api.layers.entities.Marcas;
 import com.motogest.api.layers.entities.Modelos;
 import com.motogest.api.layers.services.ModelosService;
 

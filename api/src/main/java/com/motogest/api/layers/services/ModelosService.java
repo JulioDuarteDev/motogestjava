@@ -47,8 +47,6 @@ public class ModelosService {
     public List<Modelos> buscarModelosPorMarca(Integer idMarca) {
         Marcas marca = marcasService.buscarMarcaPorId(idMarca);
 
-        System.out.println(marca);
-        
         List<Modelos> modelos = modelosRepository.findByMarca(marca);
 
         if (modelos.isEmpty()) {
