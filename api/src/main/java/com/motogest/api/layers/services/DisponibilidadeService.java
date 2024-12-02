@@ -49,7 +49,7 @@ public class DisponibilidadeService {
 
         disponibilidadeRepository.save(disponibilidade);
 
-        String feedback = "Disponibilidade " + disponibilidade.getNome() + " salva com sucesso";
+        String feedback = String.format("Disponibilidade '%s' salva com sucesso!", disponibilidade.getNome());
         return feedback;
     }
 
@@ -58,7 +58,7 @@ public class DisponibilidadeService {
 
         disponibilidadeRepository.save(disponibilidade);
 
-        String feedback = "Disponibilidade " + disponibilidade.getNome() + " atualizada com sucesso";
+        String feedback = String.format("Disponibilidade '%s' atualizada com sucesso!", disponibilidade.getNome());
         return feedback;
     }
 
@@ -67,7 +67,7 @@ public class DisponibilidadeService {
 
         disponibilidadeRepository.delete(disponibilidade);
 
-        String feedback = "Disponibilidade " + disponibilidade.getNome() + " deletada com sucesso";
+        String feedback = String.format("Disponibilidade '%s' deletada com sucesso!", disponibilidade.getNome());
         return feedback;
     }
 }

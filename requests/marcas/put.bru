@@ -1,0 +1,18 @@
+meta {
+  name: put
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/marcas/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id":"1",
+    "nome":"yamaha"
+  }
+}

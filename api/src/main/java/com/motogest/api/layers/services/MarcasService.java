@@ -1,6 +1,7 @@
 package com.motogest.api.layers.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,60 @@ public class MarcasService {
     @Autowired
     private MarcasRepository marcasRepository;
 
+    String naoEncontrado = "Não foi possível encontrar uma marca com o parâmetro informado";
+
     public List<Marcas> listarMarcas() {
-        return marcasRepository.findAll();
+        List<Marcas> marcas = marcasRepository.findAll();
+
+        if(marcas.isEmpty()) {
+            throw new NoSuchElementException("Não existem marcas cadastradas");
+        }
+
+        return marcas;
     }
 
-    public Marcas buscarMarca(String nome) {
-        return marcasRepository.findByNome(nome);
+    public Marcas buscarMarcaPorNome(String nome) {
+        Marcas marca = marcasRepository.findByNome(nome);
+
+        if(marca == null) {
+            throw new NoSuchElementException(naoEncontrado);
+        }
+
+        return marca;
+    }
+
+    public Marcas buscarMarcaPorId(Integer id) {
+        return marcasRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+    }
+
+    public String salvarMarca(Marcas marca) {
+        Marcas marcaExistente = marcasRepository.findByNome(marca.getNome());
+
+        if(marcaExistente != null) {
+            throw new IllegalArgumentException("Já existe uma marca com o nome informado");
+        }
+
+        marcasRepository.save(marca);
+
+        String feedback = String.format("Marca '%s' salva com sucesso!", marca.getNome());
+        return feedback;
+    }
+
+    public String atualizarMarca(Marcas marca) {
+        marcasRepository.findById(marca.getId()).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+
+        marcasRepository.save(marca);
+
+        String feedback = String.format("Marca '%s' atualizada com sucesso!", marca.getNome());
+        return feedback;
+    }
+
+    public String deletarMarca(Integer id) {
+        Marcas marca = marcasRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+
+        marcasRepository.delete(marca);
+
+        String feedback = String.format("Marca '%s' deletada com sucesso!", marca.getNome());
+        return feedback;
     }
 }
