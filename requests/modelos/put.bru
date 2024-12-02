@@ -1,0 +1,20 @@
+meta {
+  name: put
+  type: http
+  seq: 8
+}
+
+put {
+  url: http://localhost:8080/modelos/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id":"3",
+    "nome":"teste",
+    "marca":{"id":"2"},
+    "cilindrada":"150"
+  }
+}
