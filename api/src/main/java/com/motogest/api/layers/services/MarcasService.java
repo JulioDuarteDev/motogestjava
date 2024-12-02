@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.motogest.api.layers.entities.Marcas;
+import com.motogest.api.layers.entities.Modelos;
 import com.motogest.api.layers.repositories.MarcasRepository;
+import com.motogest.api.layers.repositories.ModelosRepository;
 
 @Service
 public class MarcasService {
     @Autowired
-    private MarcasRepository marcasRepository;
+    MarcasRepository marcasRepository;
+
+    @Autowired
+    ModelosRepository modelosRepository;
 
     String naoEncontrado = "Não foi possível encontrar uma marca com o parâmetro informado";
 
@@ -64,6 +69,12 @@ public class MarcasService {
 
     public String deletarMarca(Integer id) {
         Marcas marca = marcasRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+
+        List<Modelos> modelos = modelosRepository.findByMarca(marca);
+
+        if(!modelos.isEmpty()) {
+            throw new IllegalArgumentException("Não é possível deletar uma marca que possui modelos associados");
+        }
 
         marcasRepository.delete(marca);
 

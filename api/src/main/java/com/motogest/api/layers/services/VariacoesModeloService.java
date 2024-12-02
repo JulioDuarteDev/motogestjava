@@ -6,13 +6,18 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.motogest.api.layers.entities.Motos;
 import com.motogest.api.layers.entities.VariacoesModelos;
+import com.motogest.api.layers.repositories.MotosRepository;
 import com.motogest.api.layers.repositories.VariacoesModeloRepository;
 
 @Service
 public class VariacoesModeloService {
     @Autowired
     private VariacoesModeloRepository variacoesModeloRepository;
+
+    @Autowired
+    MotosRepository motosRepository;
 
     String naoEncontrado = "Não foi possível encontrar uma variação de modelo com o parâmetro informado";
 
@@ -67,8 +72,14 @@ public class VariacoesModeloService {
     }
 
     public String deletarVariacao(Integer id) {
-        variacoesModeloRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+        VariacoesModelos variacao = variacoesModeloRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
 
+        List<Motos> motos = motosRepository.findByVariacao(variacao);
+
+        if (!motos.isEmpty()) {
+            throw new IllegalArgumentException("Não é possível deletar uma variação de modelo que possui motos associadas");
+        }
+        
         variacoesModeloRepository.deleteById(id);
 
         String feedback = "Variação de modelo deletada com sucesso!";

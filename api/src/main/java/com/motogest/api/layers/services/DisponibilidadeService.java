@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.motogest.api.layers.entities.Disponibilidade;
+import com.motogest.api.layers.entities.Motos;
 import com.motogest.api.layers.repositories.DisponibilidadeRepository;
+import com.motogest.api.layers.repositories.MotosRepository;
 
 @Service
 public class DisponibilidadeService {
     @Autowired
     private DisponibilidadeRepository disponibilidadeRepository;
+
+    @Autowired
+    MotosRepository motosRepository;
 
     String naoEncontrado = "Não foi possível encontrar uma disponibilidade com o parâmetro informado";
 
@@ -64,6 +69,12 @@ public class DisponibilidadeService {
 
     public String deletarDisponibilidade(Integer id) {
         Disponibilidade disponibilidade = disponibilidadeRepository.findById(id).orElseThrow(() -> new NoSuchElementException(naoEncontrado));
+
+        List<Motos> motos = motosRepository.findByDisponibilidade(disponibilidade);
+
+        if(!motos.isEmpty()) {
+            throw new IllegalArgumentException("Não é possível deletar pois existem motos associadas a esta disponibilidade");
+        }
 
         disponibilidadeRepository.delete(disponibilidade);
 
