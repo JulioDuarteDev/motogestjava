@@ -1,0 +1,23 @@
+meta {
+  name: post
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8080/motos/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "ano":"2024",
+    "observacoes":"conta com rastreador e seguro",
+    "placa":"AAA1234",
+    "quilometragem":"0",
+    "disponibilidade":{"id":"1"},
+    "modelo":{"id":"1"},
+    "variacao":{"id":"1"}
+  }
+}
